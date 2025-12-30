@@ -213,3 +213,5 @@ data/
 logs/
 airflow.db
 airflow-webserver.pid
+.python-version
+webserver_config.py
