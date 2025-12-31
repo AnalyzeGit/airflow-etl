@@ -12,8 +12,22 @@ with DAG(
     catchup=False
 ) as dag:
 
-    postgres_task = PostgresOperator(
+    extract_task = PostgresOperator(
         task_id = 'extract_from_postgres',
         postgres_conn_id='my_postgres_connection',
         sql="sql/extract_orders.sql"
     )
+
+    transform_task = PostgresOperator(
+        task_id = 'transform_from_postgres',
+        postgres_conn_id='my_postgres_connection',
+        sql="sql/transform_orders.sql"
+    )
+
+    load_task = PostgresOperator(
+        task_id = 'load_from_postgres',
+        postgres_conn_id='my_postgres_connection',
+        sql="sql/load_orders.sql"
+    )
+
+    extract_task >> transform_task >> load_task
